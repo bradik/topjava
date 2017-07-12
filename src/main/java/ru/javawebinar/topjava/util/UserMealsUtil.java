@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.util;
 
+import org.openjdk.jmh.annotations.Benchmark;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 
