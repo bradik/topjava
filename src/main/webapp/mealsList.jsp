@@ -12,7 +12,7 @@
     <title>Meal</title>
     <style type="text/css">
         TABLE {
-            width: 300px; /* Ширина таблицы */
+            /* width: 300px; /* Ширина таблицы */
             background: #fffff0; /* Цвет фона*/
             border: 1px solid #a52a2a; /* Рамка вокруг таблицы */
             border-collapse: collapse; /* Убираем двойные линии между ячейками */
@@ -44,6 +44,10 @@
             color: #41a537; /* Цвет текста при норме */
         }
 
+        .def {
+            color: #222222;
+        }
+
     </style>
 </head>
 <body>
@@ -53,13 +57,16 @@
             <th>Дата</th>
             <th>Описание</th>
             <th>Калории</th>
+            <th><td><a href="mealController?action=new">Добавить</a></td></th>
         </tr>
-        <c:forEach var="meal" items="${mealsWithExceeded}">
+        <c:forEach var="meal" items="${mealsList}">
         <c:if test="${meal.exceed}">
             <tr class="exceed">
                 <td><c:out value="${dateFormater.format(meal.dateTime)}"/></td>
                 <td class="la"><c:out value="${meal.description}"/></td>
-                <td class="exceed"><c:out value="${meal.calories}"/></td>
+                <td><c:out value="${meal.calories}"/></td>
+                <td><a href="mealController?action=edit&id=<c:out value="${meal.id}"/>">Изменить</a></td>
+                <td><a href="mealController?action=delete&id=<c:out value="${meal.id}"/>">Удалить</a></td>
             </tr>
         </c:if>
         <c:if test="${!meal.exceed}">
@@ -67,6 +74,8 @@
                 <td><c:out value="${dateFormater.format(meal.dateTime)}"/></td>
                 <td class="la"><c:out value="${meal.description}"/></td>
                 <td><c:out value="${meal.calories}"/></td>
+                <td><a href="mealController?action=edit&id=<c:out value="${meal.id}"/>">Изменить</a></td>
+                <td><a href="mealController?action=delete&id=<c:out value="${meal.id}"/>">Удалить</a></td>
             </tr>
         </c:if>
         </c:forEach>
