@@ -60,24 +60,13 @@
             <th><td><a href="mealController?action=new">Добавить</a></td></th>
         </tr>
         <c:forEach var="meal" items="${mealsList}">
-        <c:if test="${meal.exceed}">
-            <tr class="exceed">
+            <tr class="<c:out value="${meal.exceed ? 'exceed' : 'notExceed'}" />">
                 <td><c:out value="${dateFormater.format(meal.dateTime)}"/></td>
                 <td class="la"><c:out value="${meal.description}"/></td>
                 <td><c:out value="${meal.calories}"/></td>
                 <td><a href="mealController?action=edit&id=<c:out value="${meal.id}"/>">Изменить</a></td>
                 <td><a href="mealController?action=delete&id=<c:out value="${meal.id}"/>">Удалить</a></td>
             </tr>
-        </c:if>
-        <c:if test="${!meal.exceed}">
-            <tr class="notExceed">
-                <td><c:out value="${dateFormater.format(meal.dateTime)}"/></td>
-                <td class="la"><c:out value="${meal.description}"/></td>
-                <td><c:out value="${meal.calories}"/></td>
-                <td><a href="mealController?action=edit&id=<c:out value="${meal.id}"/>">Изменить</a></td>
-                <td><a href="mealController?action=delete&id=<c:out value="${meal.id}"/>">Удалить</a></td>
-            </tr>
-        </c:if>
         </c:forEach>
     </table>
 </body>
