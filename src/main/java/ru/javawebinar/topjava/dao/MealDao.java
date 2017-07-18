@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.dao;
 
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealWithExceed;
 
 import java.util.List;
@@ -10,5 +11,9 @@ import java.util.List;
 public interface MealDao {
 
     List<MealWithExceed> getAllItems();
+    Meal getItem(int id);
+    void addItem(Meal item);
+    void updateItem(Meal item);
+    void deleteItem(int id);
 
 }
