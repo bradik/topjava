@@ -19,6 +19,13 @@
 <section>
     <h3><a href="index.html">Home</a></h3>
     <h2>Meal list</h2>
+    <p/>
+    <form method="post" action="login">
+        <input name="user" type="radio" value="1" checked>Admin
+        <input name="user" type="radio" value="2">User
+        <input type="submit" value="Войти">
+    </form>
+    <p/>
     <a href="meals?action=create">Add Meal</a>
     <hr/>
     <table border="1" cellpadding="8" cellspacing="0">

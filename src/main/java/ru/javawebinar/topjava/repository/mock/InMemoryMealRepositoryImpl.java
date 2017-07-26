@@ -59,14 +59,14 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     private boolean isCurentUserAdmin() {
 
-        User user = userRepository.get(AuthorizedUser.id());
+        final User user = userRepository.get(AuthorizedUser.id());
 
         return user != null && user.getRoles().contains(Role.ROLE_ADMIN);
     }
 
     private boolean checkMealAccess(int mealId) {
 
-        return (isCurentUserAdmin() || usersMeals.getOrDefault(repository.get(mealId),-1) == AuthorizedUser.id());
+        return (isCurentUserAdmin() || usersMeals.getOrDefault(mealId,-1) == AuthorizedUser.id());
     }
 }
 

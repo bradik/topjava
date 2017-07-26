@@ -39,14 +39,23 @@ public class MealServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
-        log.info("mealAction");
+        String servletPath = request.getServletPath();
 
-        restController.mealAction(request.getParameter("id"),
-                request.getParameter("dateTime"),
-                request.getParameter("description"),
-                request.getParameter("calories"));
+        switch (servletPath == null ? "" : servletPath) {
+            case "/meals":
+                log.info("mealAction");
+                restController.mealAction(request.getParameter("id"),
+                        request.getParameter("dateTime"),
+                        request.getParameter("description"),
+                        request.getParameter("calories"));
 
-        response.sendRedirect("meals");
+                response.sendRedirect("meals");
+                break;
+            case "/login":
+                log.info("login");
+                response.sendRedirect("meals");
+                break;
+        }
     }
 
     @Override
