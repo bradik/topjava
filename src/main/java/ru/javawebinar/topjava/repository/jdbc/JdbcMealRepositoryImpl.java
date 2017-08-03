@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsertOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -20,17 +22,19 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     private static final BeanPropertyRowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
+    private SimpleJdbcInsertOperations simpleJdbcTemplate;
+
     private final JdbcTemplate jdbcTemplate;
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private final SimpleJdbcInsert insertMeal;
+    //private final SimpleJdbcInsert insertMeal;
 
     @Autowired
     public JdbcMealRepositoryImpl(DataSource dataSource, JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.insertMeal = new SimpleJdbcInsert(dataSource)
-                .withTableName("meals")
-                .usingGeneratedKeyColumns("id");
+//        this.insertMeal = new SimpleJdbcInsert(dataSource)
+//                .withTableName("meals")
+//                .usingGeneratedKeyColumns("id");
 
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
@@ -46,8 +50,14 @@ public class JdbcMealRepositoryImpl implements MealRepository {
                 .addValue("calories",meal.getCalories());
 
         if (meal.isNew()){
-            Number number = insertMeal.executeAndReturnKey(map);
-            meal.setId(number.intValue());
+//            Number number = insertMeal.executeAndReturnKey(map);
+//            meal.setId(number.intValue());
+
+            GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+            namedParameterJdbcTemplate.update(
+                    "INSERT INTO meals (user_id,datetime,description,calories) " +
+                            "VALUES (:user_id,:datetime,:description,:calories)", map, generatedKeyHolder);
+            meal.setId(((Number)generatedKeyHolder.getKeys().get("id")).intValue());
         } else {
             namedParameterJdbcTemplate.update(
                     "UPDATE meals SET user_id=:user_id, datetime=:datetime, " +
