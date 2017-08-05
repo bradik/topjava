@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS meal;
+DROP TABLE IF EXISTS meals;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
 DROP SEQUENCE IF EXISTS global_seq;
@@ -34,3 +34,5 @@ CREATE TABLE meals
   calories INTEGER NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
+
+CREATE UNIQUE INDEX meals__index ON public.meals (user_id, datetime);
