@@ -1,7 +1,15 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.ExpectedException;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+import org.junit.runners.model.Statement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -11,9 +19,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
-import java.time.LocalDate;
-import java.time.Month;
+import java.time.*;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
@@ -31,6 +40,50 @@ public class MealServiceTest {
         SLF4JBridgeHandler.install();
     }
 
+    private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
+
+    private static Map<Description,Duration> durationTests;
+
+    @Rule
+    public final ExpectedException thrown = ExpectedException.none();
+
+    @Rule
+    public final TestRule chain = RuleChain.outerRule(new TestWatcher() {
+        private Instant start;
+
+        @Override
+        protected void starting(Description description) {
+            super.starting(description);
+            start = Instant.now();
+        }
+
+        @Override
+        protected void finished(Description description) {
+            super.finished(description);
+
+            Instant end = Instant.now();
+            Duration diff = Duration.between(start, end);
+
+            durationTests.put(description, diff);
+        }
+    });
+
+    @BeforeClass
+    public  static void beforeClass(){
+
+        durationTests = new HashMap<>();
+
+    }
+
+    @AfterClass
+    public static void afterClass(){
+
+        for (Map.Entry<Description, Duration> entry : durationTests.entrySet()) {
+            log.info("{} - duration:  {} ms", entry.getKey().getMethodName(), entry.getValue().toMillis());
+        }
+    }
+
+
     @Autowired
     private MealService service;
 
@@ -40,8 +93,9 @@ public class MealServiceTest {
         MATCHER.assertCollectionEquals(Arrays.asList(MEAL6, MEAL5, MEAL4, MEAL3, MEAL2), service.getAll(USER_ID));
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testDeleteNotFound() throws Exception {
+        thrown.expect(NotFoundException.class);
         service.delete(MEAL1_ID, 1);
     }
 
@@ -70,8 +124,9 @@ public class MealServiceTest {
         MATCHER.assertEquals(updated, service.get(MEAL1_ID, USER_ID));
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testUpdateNotFound() throws Exception {
+        thrown.expect(NotFoundException.class);
         service.update(MEAL1, ADMIN_ID);
     }
 
