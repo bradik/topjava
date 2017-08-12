@@ -32,13 +32,7 @@ public class MealServlet extends HttpServlet {
 
         //springContext = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml");
 
-        //http://www.programcreek.com/java-api-examples/index.php?class=org.springframework.context.annotation.AnnotationConfigApplicationContext&method=scan
-        GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
-        ctx.getEnvironment().setActiveProfiles(Profiles.getActiveProfiles());
-        ctx.load("spring/spring-app.xml", "spring/spring-db.xml");
-        ctx.refresh();
-
-        springContext = ctx;
+        springContext = Profiles.getSpringContext("spring/spring-app.xml", "spring/spring-db.xml");
 
         mealController = springContext.getBean(MealRestController.class);
     }

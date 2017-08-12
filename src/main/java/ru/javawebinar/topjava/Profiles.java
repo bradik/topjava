@@ -1,5 +1,8 @@
 package ru.javawebinar.topjava;
 
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
+
 public class Profiles {
     public static final String
             JDBC = "jdbc",
@@ -25,5 +28,17 @@ public class Profiles {
                 throw new IllegalStateException("Could not find DB driver");
             }
         }
+    }
+
+    public static ConfigurableApplicationContext getSpringContext(String... resourceLocations){
+
+        //http://www.programcreek.com/java-api-examples/index.php?class=org.springframework.context.annotation.AnnotationConfigApplicationContext&method=scan
+
+        GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
+        ctx.getEnvironment().setActiveProfiles(getActiveProfiles());
+        ctx.load(resourceLocations);
+        ctx.refresh();
+
+        return ctx;
     }
 }
