@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.repository;
+package ru.javawebinar.topjava.repository.cache;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -6,7 +6,7 @@ import org.hibernate.SessionFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-public class JpaUtil {
+public class JpaCacheUtil implements CacheUtil {
 
     @PersistenceContext
     private EntityManager em;

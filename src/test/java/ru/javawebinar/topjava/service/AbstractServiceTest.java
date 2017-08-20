@@ -48,7 +48,7 @@ abstract public class AbstractServiceTest {
     };
 
     static {
-        // needed only for java.util.logging (postgres driver)
+        // needed only for java.cacheUtil.logging (postgres driver)
         SLF4JBridgeHandler.install();
     }
 
