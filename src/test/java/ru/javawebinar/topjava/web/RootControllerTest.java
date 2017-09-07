@@ -27,8 +27,6 @@ public class RootControllerTest extends AbstractControllerTest {
 
     public static final BeanMatcher<MealWithExceed> MEAL_WITH_EXCEED_BEAN_MATCHER = BeanMatcher.of(MealWithExceed.class);
 
-    @Autowired
-    protected MealService mealService;
 
     @Test
     public void testUsers() throws Exception {
