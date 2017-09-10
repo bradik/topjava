@@ -448,9 +448,9 @@
                 </con:request>
             </con:method>
         </con:resource>
-        <con:resource name="meal" path="/topjava/rest/profile/meals/100002" id="0845e038-cccd-474a-9d22-61d86a2d7a7f">
+        <con:resource name="meal" path="/topjava/ajax/profile/meals" id="0845e038-cccd-474a-9d22-61d86a2d7a7f">
             <con:settings/>
-            <con:parameters/>
+            <con:parameters><con:parameter><con:name>id</con:name><con:value/><con:style>QUERY</con:style><con:default/><con:description xsi:nil="true"/></con:parameter><con:parameter><con:name>dateTime</con:name><con:value/><con:style>QUERY</con:style><con:default/><con:description xsi:nil="true"/></con:parameter><con:parameter><con:name>description</con:name><con:value/><con:style>QUERY</con:style><con:default/><con:description xsi:nil="true"/></con:parameter><con:parameter><con:name>calories</con:name><con:value/><con:style>QUERY</con:style><con:default/><con:description xsi:nil="true"/></con:parameter></con:parameters>
             <con:method name="mealGet" id="e626de66-db50-46c2-998d-bc678628f063" method="GET">
                 <con:settings/>
                 <con:parameters/>
@@ -473,8 +473,13 @@
                     </con:credentials>
                     <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
                     <con:jmsPropertyConfig/>
-                    <con:parameters/>
-                </con:request>
+                    <con:parameters>
+  <con:entry key="id" value=""/>
+  <con:entry key="dateTime" value=""/>
+  <con:entry key="description" value=""/>
+  <con:entry key="calories" value=""/>
+</con:parameters>
+                <con:parameterOrder><con:entry>id</con:entry><con:entry>dateTime</con:entry><con:entry>description</con:entry><con:entry>calories</con:entry></con:parameterOrder></con:request>
             </con:method>
             <con:method name="mealPut" id="9e81ea7f-b2ff-4016-8bf9-635156f1476f" method="PUT">
                 <con:settings/>
@@ -526,10 +531,20 @@
                     </con:credentials>
                     <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
                     <con:jmsPropertyConfig/>
-                    <con:parameters/>
-                </con:request>
+                    <con:parameters>
+  <con:entry key="id" value=""/>
+  <con:entry key="dateTime" value=""/>
+  <con:entry key="description" value=""/>
+  <con:entry key="calories" value=""/>
+</con:parameters>
+                <con:parameterOrder><con:entry>id</con:entry><con:entry>dateTime</con:entry><con:entry>description</con:entry><con:entry>calories</con:entry></con:parameterOrder></con:request>
             </con:method>
-        </con:resource>
+        <con:method name="mealPostAjax" id="ce592b98-dc06-4315-b1f1-9d5aae22033a" method="POST"><con:settings/><con:parameters/><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="FAULT"><con:mediaType>text/html;charset=utf-8</con:mediaType><con:status>401 500 400</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>200</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Request 1" id="32eb6403-ed89-4f69-aa6d-1006cb18f1cb" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request/><con:originalUri>http://localhost/topjava/rest/profile/meals/100002</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters>
+  <con:entry key="id" value="0"/>
+  <con:entry key="dateTime" value="2017-09-10T00:00"/>
+  <con:entry key="description" value="111"/>
+  <con:entry key="calories" value="100"/>
+</con:parameters><con:parameterOrder><con:entry>id</con:entry><con:entry>dateTime</con:entry><con:entry>description</con:entry><con:entry>calories</con:entry></con:parameterOrder></con:request></con:method></con:resource>
         
         <con:resource name="filter" path="/topjava/rest/profile/meals/filter" id="bdd36cb7-be1e-4806-b110-1a3001b46823">
             <con:settings/>
