@@ -26,7 +26,7 @@
 
     <logger name="ru.javawebinar.topjava" level="debug"/>
 
-    <root level="INFO">
+    <root level="error">
         <appender-ref ref="console"/>
     </root>
 
