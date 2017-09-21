@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.to;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -23,7 +24,8 @@ public class MealTo extends BaseTo implements Serializable {
 
     @Range(min = 10, max = 10000)
     @NotNull
-    private int calories = 10;
+    @NumberFormat
+    private Integer calories = 10;
 
 
     public MealTo() {
@@ -52,11 +54,11 @@ public class MealTo extends BaseTo implements Serializable {
         this.description = description;
     }
 
-    public int getCalories() {
+    public Integer getCalories() {
         return calories;
     }
 
-    public void setCalories(int calories) {
+    public void setCalories(Integer calories) {
         this.calories = calories;
     }
 
