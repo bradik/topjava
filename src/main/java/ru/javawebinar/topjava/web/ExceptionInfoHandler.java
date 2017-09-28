@@ -1,17 +1,26 @@
 package ru.javawebinar.topjava.web;
 
+import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.TransactionSystemException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.util.ValidationUtil;
 import ru.javawebinar.topjava.util.exception.ErrorInfo;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @ControllerAdvice(annotations = RestController.class)
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
@@ -25,6 +34,24 @@ public class ExceptionInfoHandler {
     public ErrorInfo handleError(HttpServletRequest req, NotFoundException e) {
         return logAndGetErrorInfo(req, e, false);
     }
+
+
+    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(TransactionSystemException.class)
+    @ResponseBody
+    public ErrorInfo handleError(HttpServletRequest req, TransactionSystemException e) {
+
+        ConstraintViolationException rootCause = (ConstraintViolationException) ValidationUtil.getRootCause(e);
+
+        String detail = rootCause.getConstraintViolations().stream().map(constraintViolation ->
+                String.format("Поле %s = '%s'. %s!", constraintViolation.getPropertyPath(),
+                        constraintViolation.getInvalidValue(), constraintViolation.getMessage())
+        ).collect(Collectors.joining("\n"));
+
+
+        return new ErrorInfo(req.getRequestURL().toString(), rootCause.getClass().getSimpleName(), detail);
+    }
+
 
     @ResponseStatus(value = HttpStatus.CONFLICT)  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
